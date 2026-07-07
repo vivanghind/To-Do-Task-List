@@ -1,203 +1,168 @@
-<!doctype h
-
-tml>
+<!doctype html>
 <html>
-  <head>
-    <!--Import Google Icon Font-->
-    <link
-      href="https://fonts.googleapis.com/icon?family=Material+Icons"
-      rel="stylesheet"
-    />
-    <!--Import materialize.css-->
-    <link
-      type="text/css"
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
-      media="screen,projection"
-    />
-    <!--Import FontAwesome-->
-    <link
-      rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
-    />
-    <!--Let browser know website is optimized for mobile-->
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <style>
-      .priority {
-        border-radius: 7px;
-        display: inline-block;
-        padding: 0.05rem 0.5rem;
-        font-size: 0.7rem;
-        margin-left: 1.5rem;
-      }
-      .priority.high {
-        background-color: red;
-        color: #fff;
-      }
-      .priority.low {
-        background-color: green;
-        color: #fff;
-      }
-      .priority.medium {
-        background-color: orange;
-      }
-    </style>
-  </head>
 
-  <body>
-    <div class="container">
-      <div class="row">
-        <div class="col s12">
-          <div id="main" class="card">
-            <div class="card-content">
-              <span class="card-title">Task List</span>
-              <div class="row">
-                <form id="task-form" class="class1 class2">
-                  <div class="input-field col s12">
-                    <input type="text" name="task" id="task" />
-                    <label for="task">New Task</label>
-                  </div>
-                  <div class="input-field col s6">
-                    <input
-                      class="datepicker"
-                      type="text"
-                      name="due-date"
-                      id="dueDate"
-                    />
-                    <label for="dueDate">Due Date</label>
-                  </div>
-                  <div class="input-field col s6">
-                    <select name="priority" id="priority">
-                      <option value="" disabled selected>
-                        Choose Priority
-                      </option>
-                      <option value="high">High</option>
-                      <option value="medium">Medium</option>
-                      <option value="low">Low</option>
-                    </select>
-                    <label>Priority</label>
-                  </div>
-                  <input
-                    type="submit"
-                    value="Add Task"
-                    class="btn"
-                    id="addTask"
-                  />
-                </form>
-              </div>
-              <!--end of row-->
-            </div>
-            <!--end of  card-content-->
-            <div class="card-action">
-              <h4 id="task-title">Tasks</h4>
-              <div class="row">
-                <div class="col s12">
-                  <ul class="collapsible">
-                    <li>
-                      <div class="collapsible-header">
-                        <i class="material-icons">settings</i>Filter Tasks
-                      </div>
-                      <div class="collapsible-body">
-                        <div class="row">
-                          <div class="col s4">
-                            <div class="input-field">
-                              <input type="text" id="filterText" placeholder="Search Text"/>
-                              <label for="filterText" >Search Task</label>
-                            </div>
-                          </div>
-                          <div class="col s4">
-                            <div class="input-field">
-                              <select id="filterPriority">
-                                <option value="" disabled selected>Choose your option</option>
-                                <option value="low">Low</option>
-                                <option value="medium">Medium</option>
-                                <option value="high">High</option>
-                              </select>
-                              <label>By Priority</label>
-                            </div>
-                          </div>
-                          <div class="col s4">
-                            <div class="input-field">
-                              <!-- TODO ADD DATEPICKER -->
-                              <!-- TODO ADD DATEPICKER -->
-                            </div>
-                          </div>
-                        </div>
-                        <div class="row">
-                          <button class="btn right" id="btnApplyFilter">Apply Filter</button>
-                          <button class="btn btn-flat right" id="btnClearFilter">Clear Filters</button>
-                        </div>
-                      </div>
-                    </li>
-                  </ul>
+<head>
+  <!--Import Google Icon Font-->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+  <!--Import materialize.css-->
+  <link type="text/css" rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" media="screen,projection" />
+  <!--Import FontAwesome-->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+  <!--Let browser know website is optimized for mobile-->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    .priority {
+      border-radius: 7px;
+      display: inline-block;
+      padding: 0.05rem 0.5rem;
+      font-size: 0.7rem;
+      margin-left: 1.5rem;
+    }
+
+    .priority.high {
+      background-color: red;
+      color: #fff;
+    }
+
+    .priority.low {
+      background-color: green;
+      color: #fff;
+    }
+
+    .priority.medium {
+      background-color: orange;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="row">
+      <div class="col s12">
+        <div id="main" class="card">
+          <div class="card-content">
+            <span class="card-title">Task List</span>
+            <div class="row">
+              <form id="task-form" class="class1 class2">
+                <div class="input-field col s12">
+                  <input type="text" name="task" id="task" />
+                  <label for="task">New Task</label>
                 </div>
-              </div>
-
-              <ul class="collection" id="taskList"></ul>
-              <a href="#" class="clear-tasks btn black" id="clearAllTasks"
-                >Clear All Tasks</a
-              >
+                <div class="input-field col s6">
+                  <input class="datepicker" type="text" name="due-date" id="dueDate" />
+                  <label for="dueDate">Due Date</label>
+                </div>
+                <div class="input-field col s6">
+                  <select name="priority" id="priority">
+                    <option value="" disabled selected>
+                      Choose Priority
+                    </option>
+                    <option value="high">High</option>
+                    <option value="medium">Medium</option>
+                    <option value="low">Low</option>
+                  </select>
+                  <label>Priority</label>
+                </div>
+                <input type="submit" value="Add Task" class="btn" id="addTask" />
+              </form>
             </div>
+            <!--end of row-->
+          </div>
+          <!--end of  card-content-->
+          <div class="card-action">
+            <h4 id="task-title">Tasks</h4>
+            <div class="row">
+              <div class="col s12">
+                <ul class="collapsible">
+                  <li>
+                    <div class="collapsible-header">
+                      <i class="material-icons">settings</i>Filter Tasks
+                    </div>
+                    <div class="collapsible-body">
+                      <div class="row">
+                        <div class="col s4">
+                          <div class="input-field">
+                            <input type="text" id="filterText" placeholder="Search Text" />
+                            <label for="filterText">Search Task</label>
+                          </div>
+                        </div>
+                        <div class="col s4">
+                          <div class="input-field">
+                            <select id="filterPriority">
+                              <option value="" disabled selected>Choose your option</option>
+                              <option value="low">Low</option>
+                              <option value="medium">Medium</option>
+                              <option value="high">High</option>
+                            </select>
+                            <label>By Priority</label>
+                          </div>
+                        </div>
+                        <div class="col s4">
+                          <div class="input-field">
+                            <!-- TODO ADD DATEPICKER -->
+                            <!-- TODO ADD DATEPICKER -->
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <button type="button" class="btn right" id="btnApplyFilter">Apply Filters</button>
+                        <button type="button" class="btn btn-flat right" id="btnClearFilter">Clear Filters
+                        </button>
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <ul class="collection" id="taskList"></ul>
+            <a href="#" class="clear-tasks btn black" id="clearAllTasks">Clear All Tasks</a>
           </div>
         </div>
       </div>
     </div>
-    <!--JavaScript at end of body for optimized loading-->
+  </div>
+  <!--JavaScript at end of body for optimized loading-->
 
-    <!-- Modal Structure -->
-    <div id="editModal" class="modal">
-      <div class="modal-content">
-        <h4>Edit Me?</h4>
-        <p>Are you sure you wanna delete me?</p>
-      </div>
-      <div class="modal-footer">
-        <a
-          href="#!"
-          id="editAgree"
-          class="modal-close waves-effect waves-green btn red"
-          >Agree</a
-        >
-        <a href="#!" class="modal-close waves-effect btn-flat">Cancel</a>
-      </div>
+  <!-- Modal Structure -->
+  <div id="editModal" class="modal">
+    <div class="modal-content">
+      <h4>Edit Me?</h4>
+      <p>Do You Wanna Edit Task?</p>
     </div>
-    <div id="deleteModal" class="modal">
-      <div class="modal-content">
-        <h4>Delete?</h4>
-        <p>Are you sure you wanna delete me?</p>
-      </div>
-      <div class="modal-footer">
-        <a
-          href="#!"
-          id="deleteAgree"
-          class="modal-close waves-effect waves-green btn red"
-          >Agree</a
-        >
-        <a href="#!" class="modal-close waves-effect btn-flat">Cancel</a>
-      </div>
+    <div class="modal-footer">
+      <a href="#!" id="editAgree" class="modal-close waves-effect waves-green btn red">Agree</a>
+      <a href="#!" class="modal-close waves-effect btn-flat">Cancel</a>
     </div>
+  </div>
+  <div id="deleteModal" class="modal">
+    <div class="modal-content">
+      <h4>Delete?</h4>
+      <p>Are you sure you wanna delete me?</p>
+    </div>
+    <div class="modal-footer">
+      <a href="#!" id="deleteAgree" class="modal-close waves-effect waves-green btn red">Agree</a>
+      <a href="#!" class="modal-close waves-effect btn-flat">Cancel</a>
+    </div>
+  </div>
 
-    <div id="deleteAllModal" class="modal">
-      <div class="modal-content">
-        <h4>Delete ALL?</h4>
-        <p>Are you sure you wanna delete ALL TASKS?</p>
-      </div>
-      <div class="modal-footer">
-        <a
-          href="#!"
-          id="deleteAllAgree"
-          class="modal-close waves-effect waves-green btn"
-          >Agree</a
-        >
-        <a href="#!" class="modal-close waves-effect btn-flat">Cancel</a>
-      </div>
+  <div id="deleteAllModal" class="modal">
+    <div class="modal-content">
+      <h4>Delete ALL?</h4>
+      <p>Are you sure you wanna delete ALL TASKS?</p>
     </div>
-    <script
-      type="text/javascript"
-      src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"
-    ></script>
+    <div class="modal-footer">
+      <a href="#!" id="deleteAllAgree" class="modal-close waves-effect waves-green btn">Agree</a>
+      <a href="#!" class="modal-close waves-effect btn-flat">Cancel</a>
+    </div>
+  </div>
+  <script type="text/javascript"
+    src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 
-    <!--CUSTOMJS-->
-    <script src="app.js" type="text/javascript"></script>
-  </body>
+  <!--CUSTOMJS-->
+  <script src="app.js" type="text/javascript"></script>
+</body>
+
 </html>
