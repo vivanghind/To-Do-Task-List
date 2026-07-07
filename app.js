@@ -50,6 +50,7 @@ function registerEvents() {
   // txtFilterText.addEventListener('keyup', handleFilter); // we have changed the logic!
   btnApplyFilter.addEventListener("click", handleApplyFilters);
   btnClearFilter.addEventListener("click", handleClearFilters);
+  btnEditAgree.addEventListener("click", handleEditTask);
 }
 
 /***** HELPERS *****/
@@ -145,6 +146,7 @@ function handleAddTask(evt) {
     const taskObj = createTaskObject(taskValue, dueDateValue, priorityValue);
     createTask(taskObj);
     saveTask(taskObj);
+    tasks = getTasksFromLocalStorage();
   }
 }
 
@@ -165,7 +167,6 @@ function handleDeleteApproval(evt) {
 function handleEditApproval(evt) {
   evt.preventDefault();
   let taskId;
-  console.log("Hejldbha");
   if (evt.target.classList.contains("edit-item")) {
     taskId = evt.target.getAttribute("data-task-id");
     btnEditAgree.dataset.taskId = taskId;
@@ -180,6 +181,7 @@ function handleEditApproval(evt) {
 function handleDeleteAllAgree(evt) {
   removeAllTasksFromList();
   localStorage.setItem(TASKS_KEY, JSON.stringify([]));
+  tasks = getTasksFromLocalStorage();
 }
 function handleClearAllTasks(evt) {
   evt.preventDefault();
@@ -189,6 +191,7 @@ function handleClearAllTasks(evt) {
 function handleDeleteTask(evt) {
   const taskId = evt.target.dataset.taskId;
   deleteTask(taskId);
+  tasks = getTasksFromLocalStorage();
 }
 
 /******* TASK MANAGEMENT ******/
@@ -298,4 +301,37 @@ function removeAllTasksFromList() {
   while (taskList.firstChild) {
     taskList.firstChild.remove();
   }
+}
+function handleEditTask(evt) {
+  const taskId = Number(evt.target.dataset.taskId);
+
+  // Find task
+  const task = tasks.find((t) => t.id === taskId);
+
+  if (!task) return;
+
+  // Fill form
+  taskInput.value = task.value;
+  taskInput.nextElementSibling.classList.add("active");
+  dueDate.value = task.dueDate;
+  if (task.dueDate) {
+    dueDate.nextElementSibling.classList.add("active");
+  }
+  priority.value = task.priority;
+
+  // Update labels
+  M.updateTextFields();
+
+  // Update select
+  const select = M.FormSelect.getInstance(priority);
+  if (select) {
+    select.destroy();
+  }
+  M.FormSelect.init(priority);
+
+  // Delete old task
+  deleteTask(taskId);
+
+  // Refresh tasks array
+  tasks = getTasksFromLocalStorage();
 }
